@@ -1,0 +1,11 @@
+# /configurations/prom-config.yml
+global:
+  scrape_interval: 3s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # If you have other services or applications you'd like to monitor,
+  # you can add them under 'scrape_configs' in a similar manner.
