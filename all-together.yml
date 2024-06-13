@@ -18,10 +18,10 @@ services:
     container_name: loki
     ports:
       - "3100:3100"
-    command: -config.file=/mnt/config/loki-config.yml
+    command: -config.file=/mnt/config/loki-config.yaml
     volumes:
-      - ./configurations/loki-config.yml:/mnt/config/loki-config.yml
-      - ./loki:/wal
+      - ./configurations/loki-config.yml:/mnt/config/loki-config.yaml
+      - ./loki/wal:/wal
 
   # Grafana Configuration
   grafana:
@@ -33,6 +33,23 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=secret
     volumes:
       - ./configurations/grafana-datasources.yml:/etc/grafana/provisioning/datasources/grafana-datasources.yml
+      - ./configurations/dashboards:/etc/grafana/provisioning/dashboards
     depends_on:
       - loki
       - prometheus
+
+  webapp-install: # install dependecies before start the app
+    image: node:20
+    command: "npm i --prefix app"
+    volumes:
+      - ./:/app
+  webapp: # start the app
+    image: node:20
+    container_name: webapp
+    command: "node app/index.js"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/app
+    depends_on:
+      - webapp-install

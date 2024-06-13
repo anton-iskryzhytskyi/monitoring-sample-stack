@@ -1,0 +1,18 @@
+{
+  "name": "metrics-and-logs-service",
+  "version": "1.0.0",
+  "description": "A service for sending metrics to Prometheus and logs to Loki",
+  "main": "index.js",
+  "author": {
+    "name": "Anton Iskryzhytskyi",
+    "email": "a.iskryzhytskyi@gmail.com"
+  },
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "pino": "^8.15.0",
+    "pino-loki": "^2.1.3",
+    "prom-client": "^14.2.0"
+  }
+}
